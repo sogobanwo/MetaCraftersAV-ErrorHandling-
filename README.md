@@ -1,13 +1,39 @@
-# Sample Hardhat Project
+# RequireAssertRevertStatements
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+A simple contract showing the use of the require, assert, and revert statements
 
-Try running some of the following tasks:
+## Description
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+This project is simply to demonstrate the use of the following statements;
+1. require()
+2. assert()
+3. revert()
+
+## Getting Started
+
+### Installing
+
+* git clone 
+* npm install
+
+### Executing program
+
+* 
+* Step-by-step bullets
 ```
+npx hardhat compile
+```
+
+```
+
+## Authors
+
+
+Banwo Olorunsogo
+twitter: https://twitter.com/OlorunsogoBanwo
+email: sogobanwo@gmail.com
+
+
+## License
+
+This project is licensed under the MIT License
