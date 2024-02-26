@@ -1,33 +1,38 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.0;
 
-contract RequireAssertRevert {
-    uint256 public value;
+contract EtherBank {
+    mapping(address => uint256) public balances;
+    uint256 public totalDeposits;
 
-    constructor(uint256 _value) {
-        value = _value;
-    }
+    event Deposit(address indexed account, uint256 amount);
+    event Withdrawal(address indexed account, uint256 amount);
 
+    function deposit() external payable {
+        require(msg.sender != address(0), "Address zero detected");
 
-    function requireExample(uint256 _amount) public {
-        require(_amount > 0, "Amount must be greater than zero");
-        value -= _amount;
-    }
-
-    function assertExample(uint256 _amount) public {
-        assert(_amount > 0);
-        value += _amount;
-    }
-
-    function revertExample(uint _a, uint _b) public pure returns(uint) {    
-
-        // Revert if b is zero
-        if (_b == 0) {
-            revert("Cannot divide by zero");
+        if (msg.value >= 1 ether) {
+            balances[msg.sender] = balances[msg.sender] + msg.value;
+            totalDeposits = totalDeposits + msg.value;
+        } else {
+            revert("Amount must be greater than or equal to 1 ether");
         }
 
-        // Perform a division
-        uint256 result = _a / _b;
-        return result;
+        emit Deposit(msg.sender, msg.value);
+    }
+
+    function withdraw(uint256 _amount) external {
+        require(_amount > 0, "Withdrawal amount must be greater than zero");
+        assert(_amount <= balances[msg.sender]);
+
+        balances[msg.sender] -= _amount;
+        totalDeposits -= _amount;
+
+        payable(msg.sender).transfer(_amount);
+        emit Withdrawal(msg.sender, _amount);
+    }
+
+    function totalBalance() external view returns (uint256) {
+        return address(this).balance;
     }
 }
